@@ -6,10 +6,18 @@ using System.Threading.Tasks;
 
 namespace SqlDocumentor
 {
-    internal class Program
+    public class Program
     {
-        static void Main(string[] args)
+        static string GoalOfProject = @"
+
+The primary goal of the project is to get more familier with Microsoft.SqlServer.Management.SqlParser
+The secondary goal of the project is to build a tool that can document the computation flow through a complex 
+   
+";
+
+        public static void Main(string[] args)
         {
+             Console.WriteLine(GoalOfProject.Trim());
         }
     }
 }
