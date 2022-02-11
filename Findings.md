@@ -39,3 +39,17 @@ if(parseResult.Errors.Any())
 
     }
 }
+
+## ParseResult
+
+parseResult.BatchCount = number of batches in script
+
+
+## ParseResult.Script
+A tree of tokens representing the script. Has an XML representation.
+
+RetrieveAllIdentifiers()
+appears to be a simple select * SqlParser.SqlCodeDom.SqlIdentifier objects within tree
+
+## SqlParser Glossary
+Batch = Section of a sql script with 'GO'|EOF as the end of batch delimiter

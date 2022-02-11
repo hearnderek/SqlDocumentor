@@ -29,10 +29,6 @@ The secondary goal of the project is to build a tool that can document the compu
             Parse(query);
         }
 
-        public static void HelloWorld()
-        {
-            Console.WriteLine(GoalOfProject);
-        }
 
         public static void Parse(string query)
         {
@@ -56,6 +52,24 @@ The secondary goal of the project is to build a tool that can document the compu
                     Console.WriteLine(error.Message);
 
                 }
+            }
+            else
+            {
+                Console.WriteLine("Query was successfully parsed");
+
+                Console.WriteLine($"BatchCount: {parseResult.BatchCount}");
+
+                var parsedScript = parseResult.Script;
+
+                Console.WriteLine("\nWriting out all Identifiers");
+                var identifiers = parsedScript.RetrieveAllIdentifiers();
+                foreach (var iden in identifiers)
+                {
+                    Console.WriteLine($"type: '{iden.GetType()}'");
+                    Console.WriteLine($"value: '{iden.Value}'");
+                }
+
+
             }
         }
     }
