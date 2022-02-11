@@ -3,6 +3,10 @@
 
 # Tasks
 
+- [TODO] Define requirements
+  - I'm thinking of Building an object representation on top of the 
+- [TODO] Decide scope
+- [TODO] Pullin columns names for each table, so implist table references can be calculated.
 
 # Event Log
 

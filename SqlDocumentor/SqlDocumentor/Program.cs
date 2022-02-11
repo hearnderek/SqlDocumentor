@@ -10,6 +10,7 @@ using Microsoft.SqlServer.Management.SqlParser.SqlCodeDom;
 
 namespace SqlDocumentor
 {
+
     public class SqlTreeLocation
     {
         // NOT USED

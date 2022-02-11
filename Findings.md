@@ -69,3 +69,6 @@ contiains "SqlCommonTableExpression"s which in turn each contain a "SqlQuerySpec
 Using the Visitor/Strategy? patten I can walk the tree and do things with that.
 
 Microsoft's built-in visitor interface is a little bit too bulky for what I want, so I'll just use my own tree walker
+
+
+As long as I'm walking the tree, I can basically figure out whatever I need. The hardest part is predicting how MS with tokenize everything. 

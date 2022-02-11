@@ -113,5 +113,61 @@ FROM (
 ";
             SqlDocumentor.Program.walkTree(query);
         }
+
+        [TestMethod]
+        public void ScriptICareAbout()
+        {
+            string query = @"
+SELECT 
+    TABLE_SCHEMA,
+	TABLE_NAME as tbl,
+    CONCAT(TABLE_SCHEMA, '.', TABLE_NAME) as tbl_full_name, 
+    CONCAT(INFORMATION_SCHEMA.ts.TABLE_SCHEMA, '.', ts.TABLE_NAME) as tbl_full_name2, 
+    CONCAT([INFORMATION_SCHEMA].[ts].[TABLE_SCHEMA], '.', [ts].[TABLE_NAME]) as tbl_full_name3, 
+    1 as [one1],
+    1 [one2],
+    1 one3,
+    1 as one3,
+    *,
+    (select 2) as [two],
+    ROW_NUMBER() OVER(ORDER BY TABLE_NAME ASC) AS Row
+FROM INFORMATION_SCHEMA.tables ts
+";
+            var script =  new SqlDocumentor.ScriptICareAbout(query);
+            var cols = script.GetSelectedColumns();
+            foreach (SqlDocumentor.SelectedColumn col in cols)
+            {
+                Console.WriteLine($"identifier: {col.ColumnIdentifier}");
+                foreach (var refColumn in col.RefColumns)
+                {
+                    Console.WriteLine($"ref: {String.Join(".", refColumn.references)} -> {refColumn.ColumnName}");
+                }
+                Console.WriteLine(col.calculation);
+                Console.WriteLine();
+            }
+        }
+
+        [TestMethod]
+        public void ScriptICareAbout2()
+        {
+            string query = @"
+SELECT 
+    CONCAT([INFORMATION_SCHEMA].[ts].[TABLE_SCHEMA], '.', [ts].[TABLE_NAME]) as tbl_full_name,
+    *
+FROM INFORMATION_SCHEMA.tables ts
+";
+            var script = new SqlDocumentor.ScriptICareAbout(query);
+            var cols = script.GetSelectedColumns();
+            foreach (SqlDocumentor.SelectedColumn col in cols)
+            {
+                Console.WriteLine($"identifier: {col.ColumnIdentifier}");
+                foreach (var refColumn in col.RefColumns)
+                {
+                    Console.WriteLine($"ref: {String.Join(".", refColumn.references)} -> {refColumn.ColumnName}");
+                }
+                Console.WriteLine(col.calculation);
+                Console.WriteLine();
+            }
+        }
     }
 }
