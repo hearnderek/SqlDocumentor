@@ -11,7 +11,7 @@ namespace SqlDocumentor
         static string GoalOfProject = @"
 
 The primary goal of the project is to get more familier with Microsoft.SqlServer.Management.SqlParser
-The secondary goal of the project is to build a tool that can document the computation flow through a complex 
+The secondary goal of the project is to build a tool that can document the computation flow through a complex SQL Script
    
 ";
 
