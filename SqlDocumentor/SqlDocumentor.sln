@@ -5,6 +5,8 @@ VisualStudioVersion = 17.0.32112.339
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SqlDocumentor", "SqlDocumentor\SqlDocumentor.csproj", "{0AFC45E4-FB85-4DE3-918E-B0F565F19A3C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestSqlDocumentor", "TestSqlDocumentor\TestSqlDocumentor.csproj", "{66E7C28D-D8F7-48E5-B055-33F99BE0F6D2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{0AFC45E4-FB85-4DE3-918E-B0F565F19A3C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0AFC45E4-FB85-4DE3-918E-B0F565F19A3C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0AFC45E4-FB85-4DE3-918E-B0F565F19A3C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{66E7C28D-D8F7-48E5-B055-33F99BE0F6D2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{66E7C28D-D8F7-48E5-B055-33F99BE0F6D2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{66E7C28D-D8F7-48E5-B055-33F99BE0F6D2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{66E7C28D-D8F7-48E5-B055-33F99BE0F6D2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
