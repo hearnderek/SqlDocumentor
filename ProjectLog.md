@@ -17,3 +17,6 @@
    3. ignoring time granularity
    4. INI style tags at beginning of lines
 4. [Action] Added Test Project
+5. [Error] BadImageFormatException
+6. [Resulution] Run in 64bit
+7. [Decision] Set all build options to target ONLY 64bit -- Should be looked into further

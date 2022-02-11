@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.SqlServer.Management.SqlParser;
+using Microsoft.SqlServer.Management.SqlParser.Parser;
 
 namespace SqlDocumentor
 {
@@ -17,7 +19,44 @@ The secondary goal of the project is to build a tool that can document the compu
 
         public static void Main(string[] args)
         {
-             Console.WriteLine(GoalOfProject.Trim());
+            Console.WriteLine(GoalOfProject.Trim());
+
+            if (args.Length == 0)
+                return;
+
+            string query = args[0];
+            //new ParseOptions()
+            Parse(query);
+        }
+
+        public static void HelloWorld()
+        {
+            Console.WriteLine(GoalOfProject);
+        }
+
+        public static void Parse(string query)
+        {
+            ParseResult parseResult = Parser.Parse(query);
+
+            if (parseResult.Errors.Any())
+            {
+                Console.WriteLine("We've had some issues when parsing the query");
+
+                int i = 0;
+                foreach (var error in parseResult.Errors)
+                {
+                    i++;
+                    if (error.IsWarning)
+                        Console.WriteLine($"[Warning {i}]");
+                    else
+                        Console.WriteLine($"[Error {i}]");
+
+                    Location start = error.Start;
+                    Console.WriteLine($"At Line: {start.LineNumber} and character: {start.ColumnNumber}");
+                    Console.WriteLine(error.Message);
+
+                }
+            }
         }
     }
 }
