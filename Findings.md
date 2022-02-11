@@ -53,3 +53,19 @@ appears to be a simple select * SqlParser.SqlCodeDom.SqlIdentifier objects withi
 
 ## SqlParser Glossary
 Batch = Section of a sql script with 'GO'|EOF as the end of batch delimiter
+
+
+## SqlSelectStatement
+THIS is what I want to document
+
+## SqlQueryWithClause = WITH
+contiains "SqlCommonTableExpression"s which in turn each contain a "SqlQuerySpecification"
+
+
+
+
+# Looking at the tree
+
+Using the Visitor/Strategy? patten I can walk the tree and do things with that.
+
+Microsoft's built-in visitor interface is a little bit too bulky for what I want, so I'll just use my own tree walker

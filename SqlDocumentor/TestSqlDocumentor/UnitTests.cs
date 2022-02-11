@@ -76,5 +76,42 @@ Select TABLE_NAME tbl from INFORMATION_SCHEMA.tables
 ";
             RunProgram(query);
         }
+
+        [TestMethod]
+        public void CTEQuery()
+        {
+            string query = @"
+WITH [cte_tbls] as (
+	Select TABLE_NAME from INFORMATION_SCHEMA.tables
+)
+SELECT TABLE_NAME as tbl
+FROM [cte_tbls]
+";
+            RunProgram(query);
+        }
+
+        [TestMethod]
+        public void SubSelectQuery()
+        {
+            string query = @"
+SELECT TABLE_NAME as tbl
+FROM (
+	Select TABLE_NAME from INFORMATION_SCHEMA.tables
+) subselect
+";
+            RunProgram(query);
+        }
+
+        [TestMethod]
+        public void walk()
+        {
+            string query = @"
+SELECT TABLE_NAME as tbl
+FROM (
+	Select TABLE_NAME from INFORMATION_SCHEMA.tables
+) subselect
+";
+            SqlDocumentor.Program.walkTree(query);
+        }
     }
 }

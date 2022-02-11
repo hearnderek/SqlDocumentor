@@ -5,9 +5,28 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.SqlServer.Management.SqlParser;
 using Microsoft.SqlServer.Management.SqlParser.Parser;
+using Microsoft.SqlServer.Management.SqlParser.SqlCodeDom;
+
 
 namespace SqlDocumentor
 {
+    public class SqlTreeLocation
+    {
+        // NOT USED
+        public int depth { get; private set; }
+        public int tokenNumber { get; private set; }
+
+        public Location location { get; private set; }
+
+        public SqlTreeLocation(int depth, int tokenNumber, Location location)
+        {
+            this.depth = depth;
+            this.tokenNumber = tokenNumber;
+            this.location = location;
+        }
+    }
+
+
     public class Program
     {
         static string GoalOfProject = @"
@@ -19,7 +38,7 @@ The secondary goal of the project is to build a tool that can document the compu
 
         public static void Main(string[] args)
         {
-            Console.WriteLine(GoalOfProject.Trim());
+            //Console.WriteLine(GoalOfProject.Trim());
 
             if (args.Length == 0)
                 return;
@@ -28,6 +47,7 @@ The secondary goal of the project is to build a tool that can document the compu
             //new ParseOptions()
             Parse(query);
         }
+
 
 
         public static void Parse(string query)
@@ -55,21 +75,43 @@ The secondary goal of the project is to build a tool that can document the compu
             }
             else
             {
-                Console.WriteLine("Query was successfully parsed");
+                //Console.WriteLine("Query was successfully parsed");
 
-                Console.WriteLine($"BatchCount: {parseResult.BatchCount}");
+                //Console.WriteLine($"BatchCount: {parseResult.BatchCount}");
 
-                var parsedScript = parseResult.Script;
-
-                Console.WriteLine("\nWriting out all Identifiers");
-                var identifiers = parsedScript.RetrieveAllIdentifiers();
-                foreach (var iden in identifiers)
-                {
-                    Console.WriteLine($"type: '{iden.GetType()}'");
-                    Console.WriteLine($"value: '{iden.Value}'");
-                }
+                SqlScript parsedScript = parseResult.Script;
 
 
+
+
+                //WriteOutIdentifiers(parsedScript);
+                //Console.WriteLine();
+                Console.WriteLine(parsedScript.Xml);
+
+            }
+        }
+        public static void walkTree(string script)
+        {
+            ParseResult parseResult = Parser.Parse(script);
+            
+            
+            TreeWalker.walkTree(parseResult.Script, new[] {TreeWalker.PrintVisitor});
+        }
+
+        public static void DescribeSqlSelectStatement(SqlScript parsedScript)
+        {
+            IEnumerable<SqlCodeObject> children = parsedScript.Children;
+
+        }
+
+        private static void WriteOutIdentifiers(Microsoft.SqlServer.Management.SqlParser.SqlCodeDom.SqlScript parsedScript)
+        {
+            Console.WriteLine("\nWriting out all Identifiers");
+            var identifiers = parsedScript.RetrieveAllIdentifiers();
+            foreach (var iden in identifiers)
+            {
+                Console.WriteLine($"type: '{iden.GetType()}'");
+                Console.WriteLine($"value: '{iden.Value}'");
             }
         }
     }
