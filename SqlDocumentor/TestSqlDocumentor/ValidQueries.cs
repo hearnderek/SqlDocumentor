@@ -82,6 +82,14 @@ SELECT
 FROM INFORMATION_SCHEMA.tables ts
 ";
 
+        public static string SimpleUnion = @"
+select TABLE_SCHEMA, TABLE_NAME, TABLE_TYPE
+FROM INFORMATION_SCHEMA.tables
+UNION ALL
+select TABLE_SCHEMA, TABLE_NAME, 'VIEW' as TABLE_TYPE
+FROM INFORMATION_SCHEMA.VIEWS
+";
+
         public static string[] GetAll()
         {
             return typeof(ValidQueries).GetFields(BindingFlags.Public | BindingFlags.Static)

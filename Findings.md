@@ -72,3 +72,25 @@ Microsoft's built-in visitor interface is a little bit too bulky for what I want
 
 
 As long as I'm walking the tree, I can basically figure out whatever I need. The hardest part is predicting how MS with tokenize everything. 
+
+
+
+
+# Metadata -- A slog
+
+I'm trying to figure out how to get Metadata binded to my queries...
+
+
+This seems to do what I want... BUT I don't know how to get a working metadataProvider.
+
+Microsoft.SqlServer.Management.SqlParser.Binder.BinderProvider.CreateBinder( IMetadataProvider metadataProvider )
+
+
+
+Looking into the decompiled source of SSMS, I found that RadLangSvc -> LanguageService.cs has a method called RefreshServiceCache, which also resets the bindercache...
+
+it's using 
+using Microsoft.SqlServer.Management.SqlParser.MetadataProvider;
+using Microsoft.SqlServer.Management.SqlParser.Parser;
+
+Now it's all about figuring out how they initialize object from these libs...

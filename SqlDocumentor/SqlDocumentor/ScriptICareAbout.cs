@@ -23,6 +23,7 @@ namespace SqlDocumentor
 
         }
 
+
         public IEnumerable<SelectedColumn> GetSelectedColumns()
         {
             // root/SqlBatch/SqlSelectStatement/SqlSelectSpecification/SqlQuerySpecification/SqlSelectClause/

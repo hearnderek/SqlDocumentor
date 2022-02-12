@@ -49,7 +49,37 @@ The secondary goal of the project is to build a tool that can document the compu
             Parse(query);
         }
 
+        public static void ParseAndBindMetaData(string query, string server, string database)
+        {
+            ParseResult parseResult = Parser.Parse(query);
 
+            var provider = new Microsoft.SqlServer.Management.SqlParser.MetadataProvider.MetadataDisplayInfoProvider();
+
+
+            //var displayInfoProvider = new Microsoft.SqlServer.Management.SqlParser.MetadataProvider.MetadataDisplayInfoProvider();
+
+            //var methodNameAndParams = Microsoft.SqlServer.Management.SqlParser.Intellisense.Resolver.GetMethodNameAndParams(
+            //    parseResult, 
+            //    1, 
+            //    1, 
+            //    (Microsoft.SqlServer.Management.SqlParser.MetadataProvider.IMetadataDisplayInfoProvider)displayInfoProvider);
+            //methodNameAndParams.
+
+            /*
+             System.InvalidCastException: '型 'Microsoft.SqlServer.Management.SqlParser.MetadataProvider.MetadataDisplayInfoProvider' 
+            のオブジェクトを型 'Microsoft.SqlServer.Management.SqlParser.MetadataProvider.IMetadataProvider' にキャストできません。'
+             */
+            Microsoft.SqlServer.Management.SqlParser.Binder.IBinder binder = Microsoft.SqlServer.Management.SqlParser.Binder.BinderProvider.CreateBinder((Microsoft.SqlServer.Management.SqlParser.MetadataProvider.IMetadataProvider)provider);
+            Microsoft.SqlServer.Management.SqlParser.Metadata.IServer exServer = binder.Bind(new[] { parseResult }, server, Microsoft.SqlServer.Management.SqlParser.Binder.BindMode.Build);
+            
+
+        }
+
+        public static bool ParsesWithNoErrorsOrWarnings(string query)
+        {
+            ParseResult parseResult = Parser.Parse(query);
+            return !parseResult.Errors.Any();
+        }
 
         public static void Parse(string query)
         {
@@ -82,7 +112,7 @@ The secondary goal of the project is to build a tool that can document the compu
 
                 SqlScript parsedScript = parseResult.Script;
 
-
+                //SqlModuleViewMetadataOption
 
 
                 //WriteOutIdentifiers(parsedScript);

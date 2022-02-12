@@ -115,8 +115,14 @@ namespace TestSqlDocumentor
         {
             foreach(string query in ValidQueries.GetAll())
             {
-                Console.WriteLine(query);
+                SqlDocumentor.Program.ParsesWithNoErrorsOrWarnings(query);
             }
+        }
+
+        [TestMethod]
+        public void TestBind()
+        {
+            SqlDocumentor.Program.ParseAndBindMetaData(ValidQueries.SimpleCTE, "DESKTOP-B9Q49UJ", "master");
         }
     }
 }
