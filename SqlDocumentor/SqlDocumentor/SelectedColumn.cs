@@ -27,18 +27,18 @@ namespace SqlDocumentor
                 columnName = TakingTreeWalker.walkTree<SqlIdentifier>(expression).Last().Value;
             }
 
-            IEnumerable<SqlColumnRefExpression> refs = TakingTreeWalker.walkTree<SqlColumnRefExpression>(expression);
-            ColumnRef[] columns = refs
+            IEnumerable<SqlScalarRefExpression> scalarRefs = TakingTreeWalker.walkTree<SqlScalarRefExpression>(expression);
+            ColumnRef[] columns = scalarRefs
                 .Select(ColumnRef.From)
                 .ToArray();
 
-            if (columns.Length == 0)
-            {
-                IEnumerable<SqlScalarRefExpression> scalarRefs = TakingTreeWalker.walkTree<SqlScalarRefExpression>(expression);
-                columns = scalarRefs
-                    .Select(ColumnRef.From)
-                    .ToArray();
-            }
+            //if (columns.Length == 0)
+            //{
+            //    IEnumerable<SqlColumnRefExpression> refs = TakingTreeWalker.walkTree<SqlColumnRefExpression>(expression);
+            //    columns = refs
+            //        .Select(ColumnRef.From)
+            //        .ToArray();
+            //}
 
             return new SelectedColumn()
             {

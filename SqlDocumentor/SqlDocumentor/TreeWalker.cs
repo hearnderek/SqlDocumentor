@@ -124,7 +124,7 @@ namespace SqlDocumentor
 
         public static IEnumerable<T> walkTree<T>(SqlCodeObject sqlCodeObject) where T : SqlCodeObject
         {
-            if (sqlCodeObject is T)
+            if (sqlCodeObject is T || typeof(T).IsAssignableFrom(sqlCodeObject.GetType()))
             {
                 yield return (T) sqlCodeObject;
             }
