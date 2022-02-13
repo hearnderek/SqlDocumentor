@@ -14,17 +14,31 @@ namespace SqlDocumentor
 
         public ScriptICareAbout(string query, string server, string database)
         {
-            ParseResult parseResult = Parser.Parse(query);
+            ParseResult[] parseResults = new[] { Parser.Parse(query) };
             var provider = new SqlDatabaseMetadataProvider(server, database);
             provider.PopulateAll();
             IBinder binder = BinderProvider.CreateBinder(provider);
 
             /* BIND ERROR
              * The 'SELECT' statement is not supported in a data-tier application. Remove the statement before rebuilding.
+             * 
+             * Sr.cs -> SelectStatementWithinFunctionCannotReturnData
+             * used in ValidateModuleBodyVistor.cs
+             * 
+             * 
+             * BindMode.Build vs BindMode.Batch
+             * 
+             * Looks like I need to use Batch for all of my simple scripts.
+             * I'm guessing build has to do with internal SQL objects like views?
+             * 
+             * BoundObject is still null after binding...
+             * But I'm no longer getting errors.
              */
-            var bindResult = binder.Bind(new[] { parseResult }, database, BindMode.Build);
+            var bindResult = binder.Bind(parseResults, database, BindMode.Batch);
+            var bo = parseResults[0].Script.BoundObject;
+            script = parseResults[0].Script;
 
-            script = parseResult.Script;
+
         }
 
         internal ScriptICareAbout(SqlScript script)

@@ -98,4 +98,15 @@ FROM INFORMATION_SCHEMA.VIEWS
                 .ToArray();
         }
     }
+
+    public static class ValidQueriesAdventureWorks
+    {
+        public static string Sample1 = @"
+SELECT CompanyName
+  FROM [SalesLT].[Customer]
+ WHERE FirstName='James'
+   AND MiddleName='D.'
+   AND LastName='Kramer'
+";
+    }
 }

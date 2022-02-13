@@ -142,4 +142,41 @@ namespace SqlDocumentor
         }
 
     }
+
+    public class FindBoundTreeWalker
+    {
+        public static IEnumerable<SqlCodeObject> walkTree(SqlScript parsedScript)
+        {
+            IEnumerable<SqlCodeObject> children = parsedScript.Children;
+            // Can't decide if I want to return everything after, or just to return the 
+            foreach (SqlCodeObject child in children)
+            {
+                foreach (var obj in walkTree(child))
+                {
+                    yield return obj;
+                }
+            }
+        }
+
+
+        public static IEnumerable<SqlCodeObject> walkTree(SqlCodeObject sqlCodeObject)
+        {
+            if (sqlCodeObject.BoundObject != null)
+            {
+                yield return sqlCodeObject;
+            }
+
+            IEnumerable<SqlCodeObject> children = sqlCodeObject.Children;
+            foreach (SqlCodeObject child in children)
+            {
+                foreach (var obj in walkTree(child))
+                {
+                    yield return obj;
+                }
+            }
+
+
+        }
+
+    }
 }

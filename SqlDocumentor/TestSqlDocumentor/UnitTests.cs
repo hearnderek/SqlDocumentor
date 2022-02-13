@@ -124,5 +124,32 @@ namespace TestSqlDocumentor
         {
             SqlDocumentor.Program.ParseAndBindMetaData(ValidQueries.SimpleCTE, "DESKTOP-B9Q49UJ", "master");
         }
+
+
+        [TestMethod]
+        public void SelectStatementWithinFunctionCannotReturnData()
+        {
+            string query = ValidQueriesAdventureWorks.Sample1;
+            var script = new SqlDocumentor.ScriptICareAbout(query, "localhost", "AdventureWorksLT2019");
+            var cols = script.GetSelectedColumns();
+
+            var boundObjs = SqlDocumentor.FindBoundTreeWalker.walkTree(script.script);
+            foreach (var boundObj in boundObjs)
+            {
+                Console.WriteLine($"Bound Object: {boundObj.BoundObject.Name}");
+            }
+
+            foreach (SqlDocumentor.SelectedColumn col in cols)
+            {
+                Console.WriteLine($"identifier: {col.ColumnIdentifier}");
+                foreach (var refColumn in col.RefColumns)
+                {
+                    Console.WriteLine($"ref: {String.Join(".", refColumn.references)} -> {refColumn.ColumnName}");
+                }
+                Console.WriteLine(col.calculation);
+                Console.WriteLine();
+            }
+        }
+
     }
 }
