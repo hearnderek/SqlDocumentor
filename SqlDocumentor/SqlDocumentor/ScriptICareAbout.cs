@@ -19,13 +19,10 @@ namespace SqlDocumentor
             provider.PopulateAll();
             IBinder binder = BinderProvider.CreateBinder(provider);
 
-            /* NULL ERROR 
-   場所 Microsoft.SqlServer.Management.SqlParser.Binder.BatchBindingContext..ctor(DatabaseEx database)
-   場所 Microsoft.SqlServer.Management.SqlParser.Binder.BinderProvider.Binder.BindAll(IEnumerable`1 parseResults, String databaseName, BindMode bindMode)
-   場所 Microsoft.SqlServer.Management.SqlParser.Binder.BinderProvider.Binder.Bind(IEnumerable`1 parseResults, String databaseName, BindMode bindMode)
-   場所 SqlDocumentor.ScriptICareAbout..ctor(String query, String server, String database) (C:\Users\Derek\source\repos\SqlDocumentor\SqlDocumentor\SqlDocumentor\ScriptICareAbout.cs):行 21
+            /* BIND ERROR
+             * The 'SELECT' statement is not supported in a data-tier application. Remove the statement before rebuilding.
              */
-            var bindResult = binder.Bind(new[] { parseResult }, server, BindMode.Build);
+            var bindResult = binder.Bind(new[] { parseResult }, database, BindMode.Build);
 
             script = parseResult.Script;
         }
