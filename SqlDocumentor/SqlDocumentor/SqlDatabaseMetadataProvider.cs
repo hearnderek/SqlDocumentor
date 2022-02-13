@@ -9,26 +9,51 @@ using Microsoft.SqlServer.Management.SqlParser.MetadataProvider;
 
 namespace SqlDocumentor
 {
+    /// <summary>
+    /// Extract Tabular Column Information from Sql Server
+    /// </summary>
     public class SqlDatabaseMetadataProvider : IMetadataProvider
     {
+        // I still don't know why you would ever have a factory to replace constructors on simple objects... 
+        // Quick explination on how to use these:
+        // Choose your object, for example Database.
+        // It will let you know what parent object you should connect it with.
+        // This does not create a connection from the parents perspective -- which is the direction we will use the most --
+        // so you must use Add on the obvious IMutable* parent's IMutableCollection<T>. 
+        // Caution: Don't use the extension method Append. That will return a new enumerable and not modify the origional collection.
         private readonly MetadataFactory _metadataFactory;
+
+        // In the project I work with there are two major collations I deal with.
+        // The Default, and a Japanese one.
+        // I am willfully causing myself pain in the future and sticking with the Default here.
         public readonly CollationInfo Collation = CollationInfo.Default;
+
+        // I'm only willing to deal with one server and one database at a time.
+        // If your scope involves multiple, it's on you to code that up.
         public readonly IMutableServer server;
         public readonly IMutableDatabase database;
 
+        // I just prefer lookups via dictionaries, also specifying ignore case in the instantiation is choice. 
         public Dictionary<string, IMutableSchema> SchemaMetadataLookup = new Dictionary<string, IMutableSchema>(StringComparer.InvariantCultureIgnoreCase);
         public Dictionary<string, IMutableTable> TableMetadataLookup = new Dictionary<string, IMutableTable>(StringComparer.InvariantCultureIgnoreCase);
         public Dictionary<string, IMutableView> ViewMetadataLookup = new Dictionary<string, IMutableView>(StringComparer.InvariantCultureIgnoreCase);
 
-
+        /// <summary>
+        /// TODO: Consider Support for custom connection strings
+        /// </summary>
+        /// <param name="serverInstance"></param>
+        /// <param name="databaseName"></param>
         public SqlDatabaseMetadataProvider(string serverInstance, string databaseName)
         {
             _metadataFactory = new MetadataFactory();
             server = _metadataFactory.Server.Create(serverInstance, CollationInfo.Default);
             database = _metadataFactory.Database.Create(server, databaseName, CollationInfo.Default);
-            server.Databases.Append(database);
+            server.Databases.Add(database);
         }
 
+        /// <summary>
+        /// Using SqlClient and SQL queries get all of the information we need about the database.
+        /// </summary>
         public void PopulateAll()
         {
             PopulateTables();
@@ -137,7 +162,7 @@ LEFT JOIN INFORMATION_SCHEMA.COLUMNS on
 
         public void PopulatedStoredProcedures()
         {
-
+            // TODO
         }
 
         /// --- IMetadataProvider Section ---
