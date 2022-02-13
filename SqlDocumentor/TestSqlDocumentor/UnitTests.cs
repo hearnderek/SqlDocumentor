@@ -78,7 +78,7 @@ namespace TestSqlDocumentor
         public void ScriptICareAbout()
         {
             string query = ValidQueries.ScriptICareAbout;
-            var script =  new SqlDocumentor.ScriptICareAbout(query);
+            var script =  new SqlDocumentor.ScriptICareAbout(query, "localhost", "master");
             var cols = script.GetSelectedColumns();
             foreach (SqlDocumentor.SelectedColumn col in cols)
             {
@@ -96,7 +96,7 @@ namespace TestSqlDocumentor
         public void ScriptICareAbout2()
         {
             string query = ValidQueries.ScriptICareAbout2;
-            var script = new SqlDocumentor.ScriptICareAbout(query);
+            var script = new SqlDocumentor.ScriptICareAbout(query, "localhost", "master");
             var cols = script.GetSelectedColumns();
             foreach (SqlDocumentor.SelectedColumn col in cols)
             {

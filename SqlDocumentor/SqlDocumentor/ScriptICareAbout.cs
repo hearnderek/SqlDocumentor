@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.SqlServer.Management.SqlParser.Parser;
 using Microsoft.SqlServer.Management.SqlParser.SqlCodeDom;
+using Microsoft.SqlServer.Management.SqlParser.Binder;
 
 
 namespace SqlDocumentor
@@ -11,9 +12,21 @@ namespace SqlDocumentor
     {
         public readonly SqlScript script;
 
-        public ScriptICareAbout(string query)
+        public ScriptICareAbout(string query, string server, string database)
         {
             ParseResult parseResult = Parser.Parse(query);
+            var provider = new SqlDatabaseMetadataProvider(server, database);
+            provider.PopulateAll();
+            IBinder binder = BinderProvider.CreateBinder(provider);
+
+            /* NULL ERROR 
+   場所 Microsoft.SqlServer.Management.SqlParser.Binder.BatchBindingContext..ctor(DatabaseEx database)
+   場所 Microsoft.SqlServer.Management.SqlParser.Binder.BinderProvider.Binder.BindAll(IEnumerable`1 parseResults, String databaseName, BindMode bindMode)
+   場所 Microsoft.SqlServer.Management.SqlParser.Binder.BinderProvider.Binder.Bind(IEnumerable`1 parseResults, String databaseName, BindMode bindMode)
+   場所 SqlDocumentor.ScriptICareAbout..ctor(String query, String server, String database) (C:\Users\Derek\source\repos\SqlDocumentor\SqlDocumentor\SqlDocumentor\ScriptICareAbout.cs):行 21
+             */
+            var bindResult = binder.Bind(new[] { parseResult }, server, BindMode.Build);
+
             script = parseResult.Script;
         }
 
@@ -23,7 +36,10 @@ namespace SqlDocumentor
 
         }
 
-
+        /// <summary>
+        /// Assuming the script is a plain query, get the final columns that are selected
+        /// </summary>
+        /// <returns></returns>
         public IEnumerable<SelectedColumn> GetSelectedColumns()
         {
             // root/SqlBatch/SqlSelectStatement/SqlSelectSpecification/SqlQuerySpecification/SqlSelectClause/
