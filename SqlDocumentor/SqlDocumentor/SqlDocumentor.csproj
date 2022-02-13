@@ -46,13 +46,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Binding\BuiltInFunctionLookup.cs" />
+    <Compile Include="Binding\CollationLookup.cs" />
     <Compile Include="ColumnRef.cs" />
-    <Compile Include="IMetadataCollection.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ScriptICareAbout.cs" />
     <Compile Include="SelectedColumn.cs" />
     <Compile Include="SqlDatabaseMetadataProvider.cs" />
+    <Compile Include="Binding\SystemDataTypeLookup.cs" />
     <Compile Include="TreeWalker.cs" />
   </ItemGroup>
   <ItemGroup>

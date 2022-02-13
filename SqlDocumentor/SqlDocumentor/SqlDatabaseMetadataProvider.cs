@@ -4,11 +4,14 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.SqlServer.Management.SqlParser.Binder;
 using Microsoft.SqlServer.Management.SqlParser.Metadata;
 using Microsoft.SqlServer.Management.SqlParser.MetadataProvider;
+using Microsoft.SqlServer.Management.SqlParser.Parser;
 
 namespace SqlDocumentor
 {
+
     /// <summary>
     /// Extract Tabular Column Information from Sql Server
     /// </summary>
@@ -32,6 +35,8 @@ namespace SqlDocumentor
         // I'm only willing to deal with one server and one database at a time.
         // If your scope involves multiple, it's on you to code that up.
         public readonly IMutableServer server;
+
+        // I really should populate all databases, but personally I'd like to leave the scope to one if possible
         public readonly IMutableDatabase database;
 
         // I just prefer lookups via dictionaries, also specifying ignore case in the instantiation is choice. 
@@ -62,6 +67,7 @@ namespace SqlDocumentor
             PopulateViews();
             PopulatedStoredProcedures();
         }
+
 
         public void PopulateTables()
         {
@@ -175,18 +181,20 @@ LEFT JOIN INFORMATION_SCHEMA.COLUMNS on
 
         public IServer Server => this.server;
 
-        public IBuiltInFunctionLookup BuiltInFunctionLookup => throw new NotImplementedException();
+        public IBuiltInFunctionLookup BuiltInFunctionLookup => Binding.BuiltInFunctionLookup.Instance;
 
-        public ICollationLookup CollationLookup => throw new NotImplementedException();
+        public ICollationLookup CollationLookup => Binding.CollationLookup.Instance;
 
-        public ISystemDataTypeLookup SystemDataTypeLookup => throw new NotImplementedException();
+        public ISystemDataTypeLookup SystemDataTypeLookup => Binding.SystemDataTypeLookup.Instance;
 
         public IMetadataFactory MetadataFactory => this._metadataFactory;
 
-        public MetadataProviderEventHandler BeforeBindHandler => throw new NotImplementedException();
+        public MetadataProviderEventHandler BeforeBindHandler => (sender, e) => { };
 
-        public MetadataProviderEventHandler AfterBindHandler => throw new NotImplementedException();
+        public MetadataProviderEventHandler AfterBindHandler => (sender, e) => { };
 
-        
+
+
+
     }
 }

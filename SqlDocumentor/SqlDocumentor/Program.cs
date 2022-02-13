@@ -75,7 +75,7 @@ The secondary goal of the project is to build a tool that can document the compu
             }
 
 
-            //IBinder binder = BinderProvider.CreateBinder(provider);
+            IBinder binder = BinderProvider.CreateBinder(provider);
 
             //// Building up my own representation of the server data
             //IMutableServer serverObj = metadataFactory.Server.Create(server, CollationInfo.Default);
