@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Microsoft.SqlServer.Management.SqlParser;
 using Microsoft.SqlServer.Management.SqlParser.Parser;
+using Microsoft.SqlServer.Management.SqlParser.SqlCodeDom;
+using Microsoft.SqlServer.Management.SqlParser.Binder;
+using Microsoft.SqlServer.Management.SqlParser.Metadata;
 using Microsoft.SqlServer.Management.SqlParser.SqlCodeDom;
 
 
@@ -49,11 +51,71 @@ The secondary goal of the project is to build a tool that can document the compu
             Parse(query);
         }
 
+
         public static void ParseAndBindMetaData(string query, string server, string database)
         {
+            //var exServer = new 
             ParseResult parseResult = Parser.Parse(query);
+            
 
-            var provider = new Microsoft.SqlServer.Management.SqlParser.MetadataProvider.MetadataDisplayInfoProvider();
+
+            // Using these objects I can build up a representation of the database...
+            var provider = new SqlDatabaseMetadataProvider(server, database);
+            provider.PopulateAll();
+            
+            foreach(var table in provider.database.Schemas.First().Tables)
+            {
+                Console.WriteLine($"Table: {table.Name}");
+
+                foreach(var column in table.Columns)
+                {
+                    Console.WriteLine($"- Column: {column.Name}");
+                }
+
+            }
+
+
+            //IBinder binder = BinderProvider.CreateBinder(provider);
+
+            //// Building up my own representation of the server data
+            //IMutableServer serverObj = metadataFactory.Server.Create(server, CollationInfo.Default);
+            //var dbObj = metadataFactory.Database.Create(serverObj, database, CollationInfo.Default);
+            //serverObj.Databases.Add(dbObj);
+
+            //// Get All Schemas
+
+
+
+            //var schemaDbo = metadataFactory.Schema.Create(dbObj, "dbo");
+            //dbObj.Schemas.Add(schemaDbo);
+
+            //// Get All Tables within Schema
+            //var table = metadataFactory.Tabular.CreateTable(schemaDbo, "table Name");
+            //schemaDbo.Tables.Add(table);
+
+            // Get all views in table
+
+
+
+
+
+
+            //metadataProvider.AddMetadataForServer(server, database);
+            //var metadata = metadataProvider.GetMetadata(parseResult);
+
+            //// Get metadata from server
+            //// Get metadata from database
+
+            //// Get the sql code dom
+            //SqlCodeObject sqlCodeObject = CodeDomGenerator.GenerateCode(bindResult);
+
+
+
+
+            // IBinder binder = Microsoft.SqlServer.Management.SqlParser.Binder.
+
+
+            // var provider = new Microsoft.SqlServer.Management.SqlParser.MetadataProvider.MetadataDisplayInfoProvider();
 
 
             //var displayInfoProvider = new Microsoft.SqlServer.Management.SqlParser.MetadataProvider.MetadataDisplayInfoProvider();
@@ -69,9 +131,13 @@ The secondary goal of the project is to build a tool that can document the compu
              System.InvalidCastException: '型 'Microsoft.SqlServer.Management.SqlParser.MetadataProvider.MetadataDisplayInfoProvider' 
             のオブジェクトを型 'Microsoft.SqlServer.Management.SqlParser.MetadataProvider.IMetadataProvider' にキャストできません。'
              */
-            Microsoft.SqlServer.Management.SqlParser.Binder.IBinder binder = Microsoft.SqlServer.Management.SqlParser.Binder.BinderProvider.CreateBinder((Microsoft.SqlServer.Management.SqlParser.MetadataProvider.IMetadataProvider)provider);
-            Microsoft.SqlServer.Management.SqlParser.Metadata.IServer exServer = binder.Bind(new[] { parseResult }, server, Microsoft.SqlServer.Management.SqlParser.Binder.BindMode.Build);
-            
+
+            // No Options for these IMetadataProviders...
+            // 1. DeserializationModel.ModelMetadataProvider in (M.SS.M.SP.MS.DM) INTERNAL
+
+            //IBinder binder = BinderProvider.CreateBinder((Microsoft.SqlServer.Management.SqlParser.MetadataProvider.IMetadataProvider)provider);
+            //IServer exServer = binder.Bind(new[] { parseResult }, server, BindMode.Build);
+
 
         }
 

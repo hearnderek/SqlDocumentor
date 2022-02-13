@@ -94,3 +94,20 @@ using Microsoft.SqlServer.Management.SqlParser.MetadataProvider;
 using Microsoft.SqlServer.Management.SqlParser.Parser;
 
 Now it's all about figuring out how they initialize object from these libs...
+
+MetadataDisplayInfoProvider is used...
+
+
+
+MethodNameAndParamLocations methodNameAndParams = Microsoft.SqlServer.Management.SqlParser.Intellisense.Resolver.GetMethodNameAndParams(parseResult, request.Line + 1, request.Col + 1, (IMetadataDisplayInfoProvider) this.displayInfoProvider);
+
+
+Couldn't find the connection between provider and database...
+
+
+
+## Update 2022-02-13
+Wow, Microsoft did not make metadata easy to work with here.
+I believe that if I fillout all of their needed interfaces -- which are too many -- I can get their bind implementation to work.
+
+For now I am just going to stick with my own self built approach that uses their base objects.
