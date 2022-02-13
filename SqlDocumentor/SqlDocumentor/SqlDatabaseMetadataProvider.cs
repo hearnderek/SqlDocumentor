@@ -19,8 +19,9 @@ namespace SqlDocumentor
         // Choose your object, for example Database.
         // It will let you know what parent object you should connect it with.
         // This does not create a connection from the parents perspective -- which is the direction we will use the most --
-        // so you must use Add on the obvious IMutable* parent's IMutableCollection<T>. 
+        // so you must use .Add(child) on the obvious IMutable* parent's IMutableCollection<T>. 
         // Caution: Don't use the extension method Append. That will return a new enumerable and not modify the origional collection.
+        // Caution: If you use the I* instead of IMutable* in your local variables you will be unable to make additions to the collections.
         private readonly MetadataFactory _metadataFactory;
 
         // In the project I work with there are two major collations I deal with.
@@ -39,6 +40,7 @@ namespace SqlDocumentor
         public Dictionary<string, IMutableView> ViewMetadataLookup = new Dictionary<string, IMutableView>(StringComparer.InvariantCultureIgnoreCase);
 
         /// <summary>
+        /// The database to get our metadata from
         /// TODO: Consider Support for custom connection strings
         /// </summary>
         /// <param name="serverInstance"></param>
