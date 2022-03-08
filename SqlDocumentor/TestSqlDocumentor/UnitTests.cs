@@ -3,6 +3,7 @@ using System;
 
 namespace TestSqlDocumentor
 {
+
     [TestClass]
     public class UnitTests
     {

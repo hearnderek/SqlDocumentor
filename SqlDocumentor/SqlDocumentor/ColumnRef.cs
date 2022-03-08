@@ -8,7 +8,8 @@ namespace SqlDocumentor
     {
         public string ColumnName;
         public string[] references;
-
+        public SqlCodeObject sqlCodeObject;
+    
         //public static ColumnRef From(SqlColumnRefExpression refExpression)
         //{
         //    var cr = new ColumnRef();
@@ -27,7 +28,9 @@ namespace SqlDocumentor
         {
             var cr = new ColumnRef();
             var walked = TakingTreeWalker.walkTree<SqlIdentifier>(refExpression);
-            cr.ColumnName = walked.Last().Value;
+            SqlIdentifier identifier = walked.Last();
+            cr.sqlCodeObject = identifier;
+            cr.ColumnName = identifier.Value;
             cr.references = TakingTreeWalker.walkTree<SqlIdentifier>(refExpression)
                 // Drop last -- that will be the column name
                 .Reverse().Skip(1).Reverse()

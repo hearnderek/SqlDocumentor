@@ -108,5 +108,19 @@ SELECT CompanyName
    AND MiddleName='D.'
    AND LastName='Kramer'
 ";
+        public static string Batched1 = @"
+SELECT CompanyName
+  FROM [SalesLT].[Customer]
+ WHERE FirstName='James'
+   AND MiddleName='D.'
+   AND LastName='Kramer';
+
+GO
+
+SELECT CompanyName
+  FROM [SalesLT].[Customer]
+";
     }
+
+
 }

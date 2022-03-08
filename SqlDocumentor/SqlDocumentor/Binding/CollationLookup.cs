@@ -3,8 +3,6 @@
 namespace SqlDocumentor.Binding
 {
     /// <summary>
-    /// I have no idea why they didn't just make this public...
-    /// Ah it's because it clashes with some other class.
     /// This class only exists because I want to Bind my SqlDatabaseMetadataProvider, and I need to implement the whole interface.
     /// </summary>
     internal class CollationLookup : CollationLookupBase

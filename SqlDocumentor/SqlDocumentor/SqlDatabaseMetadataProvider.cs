@@ -63,14 +63,17 @@ namespace SqlDocumentor
         /// </summary>
         public void PopulateAll()
         {
+            // TODO: Actually handle all of the objects
+
             PopulateTables();
             PopulateViews();
             PopulatedStoredProcedures();
         }
 
-
+       
         public void PopulateTables()
         {
+            // TODO: handle system tables
             string query = @"
 SELECT TABLES.TABLE_SCHEMA, TABLES.TABLE_NAME, COLUMNS.COLUMN_NAME
 FROM INFORMATION_SCHEMA.TABLES
@@ -173,12 +176,15 @@ LEFT JOIN INFORMATION_SCHEMA.COLUMNS on
             // TODO
         }
 
+
+
         /// --- IMetadataProvider Section ---
         /// 
         /// Honestly I don't think I need this, but I feel like this is what I'm reimplementing here.
         /// It is a shame that I couldn't figure out how to use their implementation of this.
 
 
+        // Becuase this server object is populated, the below stuff can basically be ignored.
         public IServer Server => this.server;
 
         public IBuiltInFunctionLookup BuiltInFunctionLookup => Binding.BuiltInFunctionLookup.Instance;
@@ -187,6 +193,7 @@ LEFT JOIN INFORMATION_SCHEMA.COLUMNS on
 
         public ISystemDataTypeLookup SystemDataTypeLookup => Binding.SystemDataTypeLookup.Instance;
 
+        // Microsoft wanted a factory instead of basic constructors
         public IMetadataFactory MetadataFactory => this._metadataFactory;
 
         public MetadataProviderEventHandler BeforeBindHandler => (sender, e) => { };

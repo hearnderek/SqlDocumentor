@@ -12,7 +12,10 @@ using Microsoft.SqlServer.Management.SqlParser.SqlCodeDom;
 
 namespace SqlDocumentor
 {
-
+    //public class PrintVisitor : SqlCodeObjectRecursiveVisitor
+    //{
+    //    public virtual void Visit(SqlSelectClause codeObject, C context) => this.VisitList<SqlCodeObject>(codeObject.Children, context);
+    //}
     public class SqlTreeLocation
     {
         // NOT USED
@@ -56,7 +59,6 @@ The secondary goal of the project is to build a tool that can document the compu
         {
             //var exServer = new 
             ParseResult parseResult = Parser.Parse(query);
-            
 
 
             // Using these objects I can build up a representation of the database...
